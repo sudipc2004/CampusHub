@@ -19,7 +19,7 @@ export default function MobileBottomNav({ activeTab, setActiveTab }) {
           <button
             key={item.id}
             className={`mobile-nav-btn ${isActive ? 'active' : ''}`}
-            onClick={() => setActiveTab('dashboard')}
+            onClick={() => setActiveTab(item.id)}
           >
             <Icon size={20} color={isActive ? 'var(--accent-primary)' : 'var(--text-muted)'} />
             <span>{item.label}</span>

@@ -86,7 +86,7 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen, activeTab, setAct
                     className={`nav-item ${isActive ? 'active' : ''}`}
                     onClick={(e) => {
                       e.preventDefault();
-                      setActiveTab('dashboard');
+                      setActiveTab(item.id);
                     }}
                   >
                     <Icon size={18} />
