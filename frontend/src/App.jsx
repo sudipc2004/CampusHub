@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
+import { AuthProvider, useAuth } from './context/AuthContext';
 import Sidebar from './components/Sidebar';
 import Header from './components/Header';
 import MobileBottomNav from './components/MobileBottomNav';
+import AuthModal from './components/AuthModal';
 import Dashboard from './views/Dashboard';
 import AiMentor from './views/AiMentor';
 import AcademicNotes from './views/AcademicNotes';
@@ -14,10 +16,12 @@ import Leaderboard from './views/Leaderboard';
 import KnowledgeBase from './views/KnowledgeBase';
 import SecurityAudit from './views/SecurityAudit';
 
-export default function App() {
+function MainAppLayout() {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [activeTab, setActiveTab] = useState('dashboard');
   const [searchQuery, setSearchQuery] = useState('');
+
+  const { showAuthModal, setShowAuthModal, role } = useAuth();
 
   const handleSearchQuery = (q) => {
     setSearchQuery(q);
@@ -47,6 +51,7 @@ export default function App() {
       case 'knowledge':
         return <KnowledgeBase />;
       case 'security':
+        return role === 'ADMIN' ? <SecurityAudit /> : <Dashboard searchQuery={searchQuery} onNavigate={setActiveTab} />;
       case 'notifications':
         return <SecurityAudit />;
       case 'dashboard':
@@ -81,6 +86,20 @@ export default function App() {
         activeTab={activeTab} 
         setActiveTab={setActiveTab} 
       />
+
+      {/* Auth Modal Trigger */}
+      <AuthModal 
+        show={showAuthModal} 
+        onClose={() => setShowAuthModal(false)} 
+      />
     </div>
+  );
+}
+
+export default function App() {
+  return (
+    <AuthProvider>
+      <MainAppLayout />
+    </AuthProvider>
   );
 }
